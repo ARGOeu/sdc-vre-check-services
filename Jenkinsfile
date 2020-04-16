@@ -48,11 +48,23 @@ pipeline {
             }
        }
     }
-    post {
+     post {
         always {
             cleanWs()
         }
+        success {
+            script{
+                if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'devel' ) {
+                    slackSend( message: ":rocket: New version for <$BUILD_URL|$PROJECT_DIR>:$BRANCH_NAME Job: $JOB_NAME !")
+                }
+            }
+        }
+        failure {
+            script{
+                if ( env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'devel' ) {
+                    slackSend( message: ":rain_cloud: Build Failed for <$BUILD_URL|$PROJECT_DIR>:$BRANCH_NAME Job: $JOB_NAME")
+                }
+            }
+        }
     }
 }
-
-              
