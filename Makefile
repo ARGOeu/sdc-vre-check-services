@@ -4,7 +4,6 @@ FILES=Makefile ${SPECFILE} sdc-vre-check-services.py
 
 PKGVERSION=$(shell grep -s '^Version:' $(SPECFILE) | sed -e 's/Version:\s*//')
 
-
 dist:
         rm -rf dist
         mkdir -p dist/${PKGNAME}-${PKGVERSION}
@@ -17,4 +16,3 @@ sources: dist
 clean:
         rm -rf ${PKGNAME}-${PKGVERSION}.tar.gz
         rm -rf dist
-
