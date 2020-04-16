@@ -4,7 +4,8 @@ FILES=Makefile ${SPECFILE} vre-check-services-health.py
 
 PKGVERSION=$(shell grep -s '^Version:' $(SPECFILE) | sed -e 's/Version:\s*//')
 
-rm -rf dist
+dist: 
+        rm -rf dist
         mkdir -p dist/${PKGNAME}-${PKGVERSION}
         cp -pr ${FILES} dist/${PKGNAME}-${PKGVERSION}/.
         cd dist ; tar cfz ../${PKGNAME}-${PKGVERSION}.tar.gz ${PKGNAME}-${PKGVERSION}
