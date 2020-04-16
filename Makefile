@@ -1,6 +1,6 @@
 PKGNAME=sdc-vre-check-services
 SPECFILE=${PKGNAME}.spec
-FILES=Makefile ${SPECFILE} sdc-vre-check-services.py
+FILES=Makefile ${SPECFILE} vre-check-services-healtšh.py
 
 PKGVERSION=$(shell grep -s '^Version:' $(SPECFILE) | sed -e 's/Version:\s*//')
 

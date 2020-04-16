@@ -12,42 +12,38 @@ import argparse
 
 
 def ValidateValues(arguments):
-        """ Validate values - input values """
+    """ Validate values - input values """
 
-        if arguments.timeout <= 0:
-            print("\nInvalid timeout value: %s\n" % arguments.timeout)
-            print_help()
-            exit()
-
-        if arguments.svre is None:
-            print("\nNo service provided\n")
-            print_help()
-            exit()
-
-        if arguments.hostname is None:
-            print("\nNo hostname provided\n")
-            print_help()
-            exit()
-
-        if not arguments.hostname.startswith("http"):
-            print("\nNo schema supplied with hostname, did you mean https://%s?\n" % arguments.hostname)
-            print_help()
-            exit()
-
+    if arguments.timeout <= 0:
+        print("\nInvalid timeout value: %s\n" % arguments.timeout)
+        print_help()
+        exit()
+    if arguments.svre is None:
+        print("\nNo service provided\n")
+        print_help()
+        exit()
+    if arguments.hostname is None:
+        print("\nNo hostname provided\n")
+        print_help()
+        exit()
+    if not arguments.hostname.startswith("http"):
+        print("\nNo schema supplied with hostname, did you mean https://%s?\n" % arguments.hostname)
+        print_help()
+        exit()
 
 def print_help():
-        """ Print help values."""
+    """ Print help values."""
 
-        print("usage: sdc-vre-check-services.py -H  -r")
-        print("--- ---- ---- ---- ---- ---- ----\n")
-        print("main arguments:")
-        print("-H hostname")
-        print("\n")
-        print("optional arguments:")
-        print(" -h, --help  show this help message and exit")
-        print("-s vre service to check")
-        print("-t timeout")
-        print("-v verbose")
+    print("usage: sdc-vre-check-services.py -H  -r")
+    print("--- ---- ---- ---- ---- ---- ----\n")
+    print("main arguments:")
+    print("-H hostname")
+    print("\n")
+    print("optional arguments:")
+    print(" -h, --help  show this help message and exit")
+    print("-s vre service to check")
+    print("-t timeout")
+    print("-v verbose")
 
 
 def debugValues(arguments):
@@ -71,6 +67,7 @@ def checkHealth(URL, arguments):
     """
     response = None
     u = URL + "healthcheck.json"
+
     if arguments.debug:
         print("[debugValues] - finalPath: %s" % u)
     timeout = arguments.timeout
@@ -147,6 +144,7 @@ def printResult(description, exit_code):
 
     print(description)
     sys.exit(exit_code)
+    
 def main():
 
     parser = argparse.ArgumentParser(description='Replication Manager probe '
