@@ -5,7 +5,6 @@ import sys
 import requests
 import argparse
 
-
 # ##############################################################################
 # VRE Check Services health#
 # ##############################################################################
@@ -30,6 +29,7 @@ def ValidateValues(arguments):
         print("\nNo schema supplied with hostname, did you mean https://%s?\n" % arguments.hostname)
         print_help()
         exit()
+
 
 def print_help():
     """ Print help values."""
@@ -75,7 +75,7 @@ def checkHealth(URL, arguments):
         headers = {'Content-Type': 'application/json'}
         response = requests.get(url=u, timeout=timeout, headers=headers)
 
-        #############ERROR handlibg ##############
+    # ERROR handling
     except requests.exceptions.SSLError:
         description = "WARNING - Invalid SSL certificate"
         exit_code = 1
@@ -105,26 +105,26 @@ def checkHealth(URL, arguments):
 
     content = response.json()
     if arguments.debug:
-       print content
+        print content
 
     todos = json.loads(response.text)
 
     serviceToCheck = arguments.svre
     errors = 0
     servicesUnhealthy = ""
-    if len(todos) < 2 :
+    if len(todos) < 2:
         description = "CRITICAL - Service " + serviceToCheck + " is not healthy and maybe all the services or docker are down"
         exit_code = 1
         return description, exit_code
 
     for key, value in todos.items():  # for name, age in dictionary.iteritems():  (for Python 2.x)
-       if serviceToCheck in key:
-          if "healthy" in value:
-             description = "OK - Service reachable"
-             exit_code = 0
-          else:
-             errors = errors + 1
-             servicesUnhealthy = servicesUnhealthy + " , " + key
+        if serviceToCheck in key:
+            if "healthy" in value:
+                description = "OK - Service reachable"
+                exit_code = 0
+            else:
+                errors = errors + 1
+                servicesUnhealthy = servicesUnhealthy + " , " + key
 
     if errors > 0:
         description = "CRITICAL - Service " + serviceToCheck + " is not healthy. Check " + servicesUnhealthy
@@ -135,6 +135,7 @@ def checkHealth(URL, arguments):
     exit_code = 0
     return description, exit_code
 
+
 def printResult(description, exit_code):
     """ Print the predefined values
         Args:
@@ -144,7 +145,8 @@ def printResult(description, exit_code):
 
     print(description)
     sys.exit(exit_code)
-    
+
+
 def main():
 
     parser = argparse.ArgumentParser(description='Replication Manager probe '
@@ -159,7 +161,7 @@ def main():
     ValidateValues(arguments)
 
     if arguments.debug:
-       debugValues(arguments)
+        debugValues(arguments)
     URL = arguments.hostname
 
     description, exit_code = checkHealth(URL, arguments)
@@ -167,4 +169,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
